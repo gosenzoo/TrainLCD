@@ -1,0 +1,44 @@
+apacheだとhttp://localhost:8080やhttp://http://34.168.64.251:8080/で公開ディレクトリにアクセスできる。nginxだとなぜか無理。
+
+E: Unable to locate packageが出たらapt install
+
+React 変数とstateの違い：stateは内容に変更があった際、自動的に再レンダリングされる。変数はされない。
+
+useEffect：第二引数なしだとレンダリングされるたびに呼び出される。第二引数に配列（連想配列）を指定すると、
+依存配列の変数の値が変化するたびに呼び出される。
+
+propsに変更があった際、親コンポーネントが再レンダリングされた際に再レンダリングされる。
+
+defaultインポートとnamedインポート
+export default 変数　でエクスポートすると、import 変数名 from ""でインポート（1ファイルから１つまでexport）
+export const 変数 = 〇　でエクスポートすると、import {変数名} from ""でインポート（1ファイルから何個でもexport）
+
+create-next-jsをdocker上で動かす際、公式のDockerfileはcreateしたディレクトリの中に入れる。
+
+next.jsをdocker上で動かすときのホットリロードの設定方法
+以下のコードをdocker-compose.ymlのnodejsコンテナ部分に追記する
+    environment:
+      - WATCHPACK_POLLING=true
+（ただし、ctrl+z後の反映には数秒ラグがある）
+https://blog.kapiecii.com/posts/2022/07/24/docker-and-nextjs/
+
+node開発用サーバー自動起動コマンド(docker-composeに記述)
+command: /bin/sh -c "cd ./app-next && npm run dev"
+/bin/sh -c が重要？　commandの後、改行すると動かない
+
+Dockerfile CMDとRUNの違い
+CMD：コンテナ起動時に実行（composeにcommandが書かれていると、上書きされ実行されない）
+RUN：イメージビルド時に実行（主に環境構築等に使えそう、正常に動かない場合はキャッシュを疑う）
+
+Docker Desktopのコンテナをクリックすると、コンテナの標準出力が見れてデバッグに便利
+
+Dockerイメージをビルドし直すとデータベースの中身がリセットされる。
+コンテナ再起動だとデータが残る。（コンテナを消すと消える）
+
+.envファイルはlsで出ない？
+
+Dockerfileは自分の階層より上を見れない
+
+promise-mysqlのcreateConnectionでDBに接続する際、host名はDBのコンテナ名にする（コンテナネットワークを使う）（localhost等でつなぐとエラーが出る）。
+
+GETメソッドでrequestを受け取った場合、.json()で展開するとsyntax errorが出る。jsonに展開しないか、POSTメソッド等を使う。

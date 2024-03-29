@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  #web:
+  #  container_name: web
+  #  image: nginx
+  #  build: 
+  #    context: ./web
+  #    dockerfile: Dockerfile
+  #  #depends_on:
+  #  # - lcd
+  #  ports:
+  #    - "8080:8080"
+  #  volumes:
+  #    - ./web/conf.d:/etc/nginx/conf.d
+  #    - ./web/src:/usr/share/nginx/html
+  #  networks:
+  #    - backend_network
+  
+  lcd:
+    container_name: lcd
+    tty: true
+    image: lcd_image
+    build: 
+      context: .
+      dockerfile: ./lcd/lcd-app/Dockerfile
+    volumes:
+      - ./lcd/lcd-app:/var/www
+    command: /bin/sh -c "npm run dev"
+    ports:
+      - "3000:3000"
+    environment:
+      - WATCHPACK_POLLING=true
+
+networks:
+  backend_network:
+    driver: bridge
