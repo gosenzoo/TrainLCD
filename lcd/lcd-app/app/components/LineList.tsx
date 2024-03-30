@@ -21,7 +21,7 @@ const LineList: React.FC<lineListProps> = ({ setting, setSetting }) => {
         if(selectedIndexes.length > 0){
             _index = selectedIndexes[selectedIndexes.length - 1]
         }
-        _setting.lineDict[Object.keys(_setting.lineDict).length + 1] = {
+        _setting.lineDict[Object.keys(_setting.lineDict).length] = {
             lineIconKey: "",
             name: "",
             kana: "",
@@ -55,7 +55,7 @@ const LineList: React.FC<lineListProps> = ({ setting, setSetting }) => {
 
     return(
         <div>
-            路線登録
+            <h2>路線登録</h2>
             <div id="linesTableContainer">
                 <table id="linesTable">
                     <thead>
@@ -71,7 +71,7 @@ const LineList: React.FC<lineListProps> = ({ setting, setSetting }) => {
                         {
                             Object.keys(setting.lineDict).map((key, index) => {
                                 return(
-                                    <tr>
+                                    <tr key={index}>
                                         <th className={ selectedIndexes.includes(index + 1) ? 'selected' : '' } onClick={indexClicked}>
                                             {key}
                                         </th>
@@ -102,22 +102,22 @@ const LineList: React.FC<lineListProps> = ({ setting, setSetting }) => {
             <button onClick={addLine}>路線追加</button>
             <button onClick={deleteLine}>路線削除</button>
             <br></br>
-            路線記号
+            <label>路線記号</label>
             <input type="text" id="lineIconKeyInput" onChange={(e) => formUpdated(e, 'lineIconKey')}
                 value={ setting && selectedIndexes.length > 0 ? setting.lineDict[selectedIndexes[selectedIndexes.length - 1] - 1]?.lineIconKey : ''}
             ></input>
             <br></br>
-            路線名
+            <label>路線名</label>
             <input type="text" id="lineNameInput" onChange={(e) => formUpdated(e, 'name')}
                 value={ setting && selectedIndexes.length > 0 ? setting.lineDict[selectedIndexes[selectedIndexes.length - 1] - 1]?.name : ''}
             ></input>
             <br></br>
-            路線名かな
+            <label>路線名かな</label>
             <input type="text" id="lineKanaInput" onChange={(e) => formUpdated(e, 'kana')}
                 value={ setting && selectedIndexes.length > 0 ? setting.lineDict[selectedIndexes[selectedIndexes.length - 1] - 1]?.kana : ''}
             ></input>
             <br></br>
-            路線名英語
+            <label>路線名英語</label>
             <input type="text" id="lineEngInput" onChange={(e) => formUpdated(e, 'eng')}
                 value={ setting && selectedIndexes.length > 0 ? setting.lineDict[selectedIndexes[selectedIndexes.length - 1] - 1]?.eng : ''}
             ></input>

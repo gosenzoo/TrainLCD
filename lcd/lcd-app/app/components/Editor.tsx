@@ -17,6 +17,7 @@ const Editor = () => {
     return(
         <div>
             <EditorHead setting={setting} setSetting={setSetting}/>
+            <br></br>
             <StationList setting={setting} setSetting={setSetting}/>
             <br></br>
             <LineList setting={setting} setSetting={setSetting}/>

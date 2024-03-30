@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import "../type"
+import kanaToAlphabet from "../modules/KanaConverter"
 
 type stationListProps = {
     setting: settingType,
@@ -9,8 +10,6 @@ type stationListProps = {
 const StationList: React.FC<stationListProps> = ({setting, setSetting}) => {
     const [isMultiSelect, setIsMultiSelect] = useState<boolean>(false)
     const [selectedIndexes, setSelectedIndexes] = useState<number[]>([])
-
-    const test = useEffect(() => console.log(selectedIndexes), [selectedIndexes])
 
     const indexClicked = (e: any) => {
         if (!isMultiSelect) {
@@ -34,9 +33,14 @@ const StationList: React.FC<stationListProps> = ({setting, setSetting}) => {
         const _setting: settingType = structuredClone(setting)
         let _color: string = ""
         if (_setting.stationList.length > 0) {
-            _color = _setting.stationList[selectedIndexes[selectedIndexes.length - 1] - 1].lineColor
+            if(selectedIndexes.length > 0){
+                _color = _setting.stationList[selectedIndexes[selectedIndexes.length - 1] - 1].lineColor
+            }
+            else{
+                _color = _setting.stationList[_setting.stationList.length - 1].lineColor
+            }
         }
-        let _index = 0
+        let _index = _setting.stationList.length
         if(selectedIndexes.length > 0){
             _index = selectedIndexes[selectedIndexes.length - 1]
         }
@@ -95,6 +99,12 @@ const StationList: React.FC<stationListProps> = ({setting, setSetting}) => {
                 return
             }
             _setting.stationList[ind - 1][field] = e.target.value
+
+            //かなに変更があった場合、ローマ字も更新
+            if(field === "kana"){
+                console.log(kanaToAlphabet(e.target.value))
+                _setting.stationList[ind - 1].eng = kanaToAlphabet(e.target.value)
+            }
         })
         
         setSetting(_setting)
@@ -102,6 +112,7 @@ const StationList: React.FC<stationListProps> = ({setting, setSetting}) => {
 
     return(
         <div>
+            <h2>駅設定</h2>
             <div id="stationsTableContainer">
                 <table id="stationsTable">
                     <thead>
@@ -142,7 +153,6 @@ const StationList: React.FC<stationListProps> = ({setting, setSetting}) => {
                                                 if(!Object.keys(setting.lineDict).includes(line)){
                                                     return
                                                 }
-                                                console.log(line)
                                                 return(
                                                     <img src={(setting.iconDict[setting.lineDict[line].lineIconKey]) as string || ""}
                                                         key={index}
@@ -169,32 +179,32 @@ const StationList: React.FC<stationListProps> = ({setting, setSetting}) => {
             <button onClick={allSelectButtonClicked}>全選択/解除</button>
 
             <div>
-                駅名
+                <label>駅名</label>
                 <input type="text" id="nameInput" onChange={(e) => formUpdated(e, 'name')}
                     value={ setting && selectedIndexes.length > 0 ? setting.stationList[selectedIndexes[selectedIndexes.length - 1] - 1]?.name : ''}
                 ></input>
                 <br></br>
-                駅名かな
+                <label>駅名かな</label>
                 <input type="text" id="kanaInput" onChange={(e) => formUpdated(e, 'kana')}
                     value={ setting && selectedIndexes.length > 0 ? setting.stationList[selectedIndexes[selectedIndexes.length - 1] - 1]?.kana : ''}
                 ></input>
                 <br></br>
-                駅名英語
+                <label>駅名英語</label>
                 <input type="text" id="engInput" onChange={(e) => formUpdated(e, 'eng')}
                     value={ setting && selectedIndexes.length > 0 ? setting.stationList[selectedIndexes[selectedIndexes.length - 1] - 1]?.eng : ''}
                 ></input>
                 <br></br>
-                駅ナンバリング
+                <label>駅ナンバリング</label>
                 <input type="text" id="numberInput" onChange={(e) => formUpdated(e, 'number')}
                     value={ setting && selectedIndexes.length > 0 ? setting.stationList[selectedIndexes[selectedIndexes.length - 1] - 1]?.number : ''}
                 ></input>
                 <br></br>
-                路線カラー
+                <label>路線カラー</label>
                 <input type="color" id="lineColorInput" onChange={(e) => formUpdated(e, 'lineColor')}
                     value={ setting && selectedIndexes.length > 0 ? setting.stationList[selectedIndexes[selectedIndexes.length - 1] - 1]?.lineColor : ''}
                 ></input>
                 <br></br>
-                乗換路線
+                <label>乗換路線</label>
                 <input type="text" id="transfersInput" onChange={(e) => formUpdated(e, 'transfers')}
                     value={ setting && selectedIndexes.length > 0 ? setting.stationList[selectedIndexes[selectedIndexes.length - 1] - 1]?.transfers : ''}
                 ></input>

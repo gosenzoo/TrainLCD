@@ -7,12 +7,12 @@ type iconListProps = {
 }
 
 const IconList: React.FC<iconListProps> = ({ setting, setSetting }) => {
-    const [selectedIndexes, setSelectedIndexes] = useState<number[]>([])
+    const [selectedIndexes, setSelectedIndexes] = useState<string[]>([])
     const [newIconName, setNewIconName] = useState<string>("")
     const [newIconImage, setNewIconImage] = useState<string>("")
 
     const indexClicked = (e: any) => {
-        setSelectedIndexes([e.target.parentNode.rowIndex])
+        setSelectedIndexes([e.target.innerHTML])
     }
     const iconAddButtonClicked = () => {
         const _setting: settingType = structuredClone(setting)
@@ -26,6 +26,17 @@ const IconList: React.FC<iconListProps> = ({ setting, setSetting }) => {
         }
 
         _setting.iconDict[newIconName] = newIconImage
+        setSetting(_setting)
+    }
+    const iconDeleteButtonClicked = () => {
+        const _setting = structuredClone(setting)
+
+        selectedIndexes.map((key, index) => {
+            delete _setting.iconDict[key]
+        })
+
+        setSelectedIndexes([])
+
         setSetting(_setting)
     }
 
@@ -50,7 +61,7 @@ const IconList: React.FC<iconListProps> = ({ setting, setSetting }) => {
 
     return(
         <div>
-            アイコン登録
+            <h2>アイコン登録</h2>
             <div id="iconTableContainer">
                 <table id="iconTable">
                     <thead>
@@ -63,8 +74,8 @@ const IconList: React.FC<iconListProps> = ({ setting, setSetting }) => {
                         {
                             Object.keys(setting.iconDict).map((key, index) => {
                                 return(
-                                    <tr>
-                                        <th className={ selectedIndexes.includes(index + 1) ? 'selected' : '' } onClick={indexClicked}>
+                                    <tr key={index}>
+                                        <th className={ selectedIndexes.includes(key) ? 'selected' : '' } onClick={indexClicked}>
                                             {key}
                                         </th>
                                         <td>
@@ -82,10 +93,12 @@ const IconList: React.FC<iconListProps> = ({ setting, setSetting }) => {
                     </tbody>
                 </table>
             </div>
+            <button onClick={iconDeleteButtonClicked}>削除</button>
             <br></br>
-            名前
+            <label>名前</label>
             <input type="text" id="iconNameTextBox" onChange={iconNameTextboxChanged}></input>
             <br></br>
+            <label>画像アップロード</label>
             <input type="file" id="iconImgInput" onChange={iconImageInputChanged}></input>
             <br></br>
             <button onClick={iconAddButtonClicked}>アイコン追加</button>
