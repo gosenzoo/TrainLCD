@@ -14,10 +14,12 @@ type stationType = {
 }
 
 type lineType = {
-    id: string,
+    lineIconKey: string,
     name: string,
     kana: string,
     eng: string
 }
 
 type stationMembers = 'name' | 'kana' | 'eng' | 'number' | 'lineColor' | 'transfers'
+
+type lineMembers = 'lineIconKey' | 'name' | 'kana' | 'eng'

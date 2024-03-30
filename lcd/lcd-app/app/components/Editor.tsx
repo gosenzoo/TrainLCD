@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import EditorHead from "./EditorHead"
 import StationList from "./StationList"
 import LineList from "./LineList"
+import IconList from './IconList'
 import "../type"
 
 const Editor = () => {
@@ -17,7 +18,10 @@ const Editor = () => {
         <div>
             <EditorHead setting={setting} setSetting={setSetting}/>
             <StationList setting={setting} setSetting={setSetting}/>
-            <LineList/>
+            <br></br>
+            <LineList setting={setting} setSetting={setSetting}/>
+            <br></br>
+            <IconList setting={setting} setSetting={setSetting}/>
         </div>
     )
 }

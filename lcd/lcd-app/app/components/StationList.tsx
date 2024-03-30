@@ -134,7 +134,25 @@ const StationList: React.FC<stationListProps> = ({setting, setSetting}) => {
                                         {station?.number}
                                     </td>
                                     <td>
-                                        {station?.transfers.split(" ").length}
+                                        {
+                                            station?.transfers.split(" ").map((line, index) => {
+                                                if(!line){
+                                                    return
+                                                }
+                                                if(!Object.keys(setting.lineDict).includes(line)){
+                                                    return
+                                                }
+                                                console.log(line)
+                                                return(
+                                                    <img src={(setting.iconDict[setting.lineDict[line].lineIconKey]) as string || ""}
+                                                        key={index}
+                                                        alt=""
+                                                        width="20px"
+                                                        height="20px"
+                                                    />
+                                                )
+                                            })
+                                        }
                                     </td>
                                 </tr>
                             ))

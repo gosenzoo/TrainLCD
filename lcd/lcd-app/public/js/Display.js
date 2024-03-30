@@ -66,7 +66,7 @@ function draw(){
 
             let transfersId = stationList[dispStationsId + i].transfers.split(' ');
             for(let j = 0; j < transfersId.length; j ++) {
-                innerSVG.setImage(settings.iconDict[settings.lineDict[transfersId[j]].LineIconId],
+                innerSVG.setImage(settings.iconDict[settings.lineDict[transfersId[j]].lineIconKey],
                     135.84 + 151.62 * i - 76, 792 + 27 * j - 3, 35, 35);
 
                 innerSVG.setText(135.84 + 151.62 * i - 44, 808 + 27 * j, settings.lineDict[transfersId[j]].name, {
