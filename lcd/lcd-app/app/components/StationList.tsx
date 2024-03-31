@@ -83,7 +83,6 @@ const StationList: React.FC<stationListProps> = ({setting, setSetting}) => {
             setSelectedIndexes(_selectedIndexes)
         }
     }
-
     const formUpdated = (e:any, field: stationMembers) => {
         if(!setting){
             return
@@ -102,12 +101,22 @@ const StationList: React.FC<stationListProps> = ({setting, setSetting}) => {
 
             //かなに変更があった場合、ローマ字も更新
             if(field === "kana"){
-                console.log(kanaToAlphabet(e.target.value))
                 _setting.stationList[ind - 1].eng = kanaToAlphabet(e.target.value)
             }
         })
         
         setSetting(_setting)
+    }
+    const lineSelectChanged = (e: any) => {
+        const _setting = structuredClone(setting)
+        selectedIndexes.map((ind, index) => {
+            let c = ''
+            if(_setting.stationList[ind - 1].transfers !== ''){ c = ' ' }
+            _setting.stationList[ind - 1].transfers += c + e.target.value
+        })
+        setSetting(_setting)
+
+        e.target.selectedIndex = 0
     }
 
     return(
@@ -208,6 +217,18 @@ const StationList: React.FC<stationListProps> = ({setting, setSetting}) => {
                 <input type="text" id="transfersInput" onChange={(e) => formUpdated(e, 'transfers')}
                     value={ setting && selectedIndexes.length > 0 ? setting.stationList[selectedIndexes[selectedIndexes.length - 1] - 1]?.transfers : ''}
                 ></input>
+                <select onChange={lineSelectChanged}>
+                    <option>接続路線を追加</option>
+                    {
+                        Object.keys(setting.lineDict).map((key, index) => {
+                            return(
+                                <option key={index} value={key}>
+                                    {setting.lineDict[key].name}
+                                </option>
+                            )
+                        })
+                    }
+                </select>
             </div>
         </div>
     )

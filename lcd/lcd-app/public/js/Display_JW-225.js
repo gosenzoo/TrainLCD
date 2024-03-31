@@ -245,14 +245,17 @@ function draw(){
         }
     }
     else {
-        /*
-        let measure = document.createElement("svg")
+        let measure = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         measure.outerHTML = "<svg viewBox='0 0 1000 1000'>";
-        measure.innerHTML = `<text id="measure" x="0" y="0" fill="white" 
-         style="text-anchor:middle;dominant-baseline:middle;font-size:130px;font-weight:bold;font-family:sans-serif;">Mizumaki</text>`;
-        //let bbox = measure.children[0].getBBox();
-        console.log(document.getElementById("measure"));
-        */
+        measure.innerHTML = `<text id="measure-text" x="0" y="0" fill="white" 
+         style="text-anchor:middle;dominant-baseline:middle;font-size:130px;font-weight:bold;font-family:sans-serif;">${stname}</text>`;
+        
+        document.body.appendChild(measure)
+        let bbox = measure.children[0].getBBox();
+        measure.remove()
+        if (bbox.width > 678) {
+            m.scale(678 / bbox.width, 1, 834.03+25, 227.61+10);
+        }
     }
     innerSVG.setText(834.03+25, 227.61+10, stname, style);
 
