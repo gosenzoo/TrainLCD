@@ -18,5 +18,7 @@ ENV TERM xterm
 RUN apt install -y vim
 
 # パッケージをインストール
+COPY lcd/lcd-app/ ./
+RUN ls
 RUN npm install -g npm@latest
 RUN npm install promise-mysql dotenv

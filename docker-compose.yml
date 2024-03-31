@@ -24,8 +24,6 @@ services:
     build: 
       context: .
       dockerfile: ./lcd/lcd-app/Dockerfile
-    volumes:
-      - ./lcd/lcd-app:/var/www
     command: /bin/sh -c "npm run dev"
     ports:
       - "3000:3000"
