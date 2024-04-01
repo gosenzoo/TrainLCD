@@ -24,10 +24,22 @@ services:
     build: 
       context: .
       dockerfile: ./lcd/lcd-app/Dockerfile
-    command: /bin/sh -c "npm run dev"
+      args:
+        - NODE_ENV
+    volumes:
+      - ./lcd/lcd-app:/var/www
+      - /var/www/app/.next
+      - /var/www/app/node_modules
+    command: >
+      /bin/sh -c "if [ '$$NODE_ENV' = 'prod' ]; then
+               npm run build && npm start;
+             else
+               npm run dev;
+             fi"
     ports:
       - "3000:3000"
     environment:
+      - NODE_ENV=${NODE_ENV}
       - WATCHPACK_POLLING=true
 
 networks:
