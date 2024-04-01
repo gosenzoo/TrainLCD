@@ -26,8 +26,8 @@ services:
       dockerfile: ./lcd/lcd-app/Dockerfile
     volumes:
       - ./lcd/lcd-app:/var/www
-      - /var/www/app/.next
-      - /var/www/app/node_modules
+      - /var/www/.next
+      - /var/www/node_modules
     command:
       /bin/sh -c "npm run dev"
     ports:
