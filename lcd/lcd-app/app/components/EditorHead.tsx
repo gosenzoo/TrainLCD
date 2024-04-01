@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import "../type"
+import initSettingObject from "../initSettingObject"
 
 type editorHeadType = {
     setting: settingType,
@@ -32,7 +33,12 @@ const EditorHead: React.FC<editorHeadType> = ({setting, setSetting}) => {
     }
     
     const downloadFromSettings = () => {
-        const promptReturn = window.prompt("名前を付けてダウンロード", "設定")
+        const promptReturn = window.prompt("名前を付けてダウンロード", setting.info.settingName)
+        if(!promptReturn){ return }
+        
+        const _setting = structuredClone(setting)
+        _setting.info.settingName = promptReturn
+        setSetting(_setting)
         if (setting && promptReturn) {
             const blob = new Blob([JSON.stringify(setting, null, ' ')], {type: 'application\/json'});
             const downloadUrl = URL.createObjectURL(blob);
@@ -52,11 +58,7 @@ const EditorHead: React.FC<editorHeadType> = ({setting, setSetting}) => {
     }
     const deleteSetting = () => {
         if(window.confirm("全ての設定を初期化します\nダウンロードしていないデータは戻りません")){
-            setSetting({
-                stationList: [],
-                lineDict: {},
-                iconDict: {}
-            })
+            setSetting(initSettingObject)
         }
         return
     }

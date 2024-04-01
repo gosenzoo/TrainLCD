@@ -1,7 +1,19 @@
 type settingType = {
+    info: infoType,
     stationList: stationType[],
-    lineDict: { [id: string]: lineType},
+    lineDict: {[id: string]: lineType},
     iconDict: {[id: string]: string}
+}
+
+type infoType = {
+    settingName: string,
+    destination: string,
+    direction: string,
+    trainType: string,
+    lineLogo: string,
+    lineColor: string,
+    carNumber: string,
+    place: 'left' | 'right'
 }
 
 type stationType = {
@@ -23,3 +35,5 @@ type lineType = {
 type stationMembers = 'name' | 'kana' | 'eng' | 'number' | 'lineColor' | 'transfers'
 
 type lineMembers = 'lineIconKey' | 'name' | 'kana' | 'eng'
+
+type infoMembers = 'settingName' | 'destination' | 'direction' | 'trainType' | 'lineLogo' | 'lineColor' | 'carNumber' | 'place'

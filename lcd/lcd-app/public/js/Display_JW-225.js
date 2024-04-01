@@ -32,7 +32,7 @@ function resizeCanvas(){
     displayDom.style.width = originalWidth;
     displayDom.style.height = originalHeight;
 
-    console.log(originalWidth, originalHeight);
+    //console.log(originalWidth, originalHeight);
     draw();
 }
 
@@ -50,11 +50,11 @@ function draw(){
 
     let innerSVG = new InnerSVG();
 
-    console.log(displayDom);
-    console.log(displayDom.innerHtml);
+    //console.log(displayDom);
+    //console.log(displayDom.innerHtml);
 
     innerSVG.setImage(backImage0, -1, -1, 1334, 1001);
-    console.log(backImage0);
+    //console.log(backImage0);
 
     //乗り換え案内
     for (let i = 0; i < 8; i++) {
@@ -65,15 +65,17 @@ function draw(){
             });
 
             let transfersId = stationList[dispStationsId + i].transfers.split(' ');
+            let mag = 1;
+            if(transfersId.length > 7) { mag = 188 / (27 * transfersId.length);}
             for(let j = 0; j < transfersId.length; j ++) {
                 innerSVG.setImage(settings.iconDict[settings.lineDict[transfersId[j]].lineIconKey],
-                    135.84 + 151.62 * i - 76, 792 + 27 * j - 3, 35, 35);
+                    135.84 + 151.62 * i - 70, 792 + 27 * mag * j + 2.5, 24 * mag, 24 * mag);
 
-                innerSVG.setText(135.84 + 151.62 * i - 44, 808 + 27 * j, settings.lineDict[transfersId[j]].name, {
+                innerSVG.setText(135.84 + 151.62 * i - 70 + (24 + 2) * mag, 792 + 3 + 13 * mag + 27 * mag * j, settings.lineDict[transfersId[j]].name, {
                     fill: "black",
                     textAnchor: "start",
                     dominantBaseline: "middle",
-                    fontSize: "24px",
+                    fontSize: `${23 * mag}px`,
                     fontWeight: "Bold",
                     fontFamily: "BIZ UDGothic"
                 });
@@ -246,7 +248,6 @@ function draw(){
     }
     else {
         let measure = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        measure.outerHTML = "<svg viewBox='0 0 1000 1000'>";
         measure.innerHTML = `<text id="measure-text" x="0" y="0" fill="white" 
          style="text-anchor:middle;dominant-baseline:middle;font-size:130px;font-weight:bold;font-family:sans-serif;">${stname}</text>`;
         
@@ -271,6 +272,37 @@ function draw(){
         fontSize: "57px",
         fontWeight: "bold",
         fontFamily: "BIZ UDGothic"
+    });
+
+    //列車路線記号
+    innerSVG.setRect(21, 29, 68.5, 68.5, {
+        fill: settings.info.lineColor
+    });
+    innerSVG.setText(21+68.5/2, 29+68.5/2+6, settings.info.lineLogo, {
+        fill: "white",
+        textAnchor: "middle",
+        dominantBaseline: "middle",
+        fontSize: "66px",
+        fontFamily: "sans-serif"
+    });
+
+    //号車
+    innerSVG.setText(1280, 57, settings.info.carNumber, {
+        fill: "white",
+        textAnchor: "middle",
+        dominantBaseline: "middle",
+        fontWeight: "bold",
+        fontSize: "78px",
+        fontFamily: "BIZ UDGothic"
+    });
+    innerSVG.setText(1280, 112, "号車", {
+        fill: "white",
+        textAnchor: "middle",
+        dominantBaseline: "middle",
+        fontWeight: "bold",
+        fontSize: "25px",
+        fontFamily: "BIZ UDGothic",
+        letterSpacing: "1"
     });
 
 
@@ -329,7 +361,7 @@ function moveStation(step){
     //表示する駅の基準を更新
     if(nowStationId < stationList.length - 7){ dispStationsId = nowStationId; }
 
-    console.log(`now:${nowStationId}, disp:${dispStationsId}`);
+    //console.log(`now:${nowStationId}, disp:${dispStationsId}`);
 }
 
 function keyDown(e){
@@ -374,11 +406,11 @@ function toBase64Url(url, callback){
 window.onload = async function(){
     displayDom = document.getElementById("display");
     display = Snap('#display');
-    console.log(display);
+    //console.log(display);
 
     //JSON読み込み
-    console.log("ローカルストレージ：");
-    console.log(JSON.parse(localStorage.getItem('lcdStrage')));
+    //console.log("ローカルストレージ：");
+    //console.log(JSON.parse(localStorage.getItem('lcdStrage')));
     settings = JSON.parse(localStorage.getItem('lcdStrage'));
     stationList = settings.stationList;
     /*
