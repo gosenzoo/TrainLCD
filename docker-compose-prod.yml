@@ -18,18 +18,14 @@ services:
   #    - backend_network
   
   lcd:
-    container_name: lcd_dev
+    container_name: lcd_prod
     tty: true
-    image: lcd_image_dev
+    image: lcd_image_prod
     build: 
       context: .
       dockerfile: ./lcd/lcd-app/Dockerfile
-    volumes:
-      - ./lcd/lcd-app:/var/www
-      - /var/www/app/.next
-      - /var/www/app/node_modules
     command:
-      /bin/sh -c "npm run dev"
+      /bin/sh -c "npm run build && npm start"
     ports:
       - "3000:3000"
     environment:
